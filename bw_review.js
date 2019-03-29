@@ -33,19 +33,57 @@
       within textStr
 
 */
+window.onload = int;
+var stars = document.querySelectorAll('span#stars img');
 
+function int() {
+   for (var i = 0; i < stars.length; i++) {
+      stars[i].addEventListener('mouseenter', lightStars);
+      stars[i].style.cursor = "pointer";
+   };
+   document.getElementById('comment').addEventListener('keyup', updateCount);
+}
 
+function lightStars(e) {
+   var starNumber = e.target.alt,
+      starSelected = e;
+   for (var i = 0; i < starNumber; i++) {
+      stars[i].src = "bw_star2.png";
+   }
+   for (var i = starNumber; i < 5; i++) {
+      stars[i].src = "bw_star.png";
+   }
+   document.getElementById('rating').value = `${starNumber} stars`;
+   e.target.addEventListener('mouseleave', turnOffStars);
+   e.target.addEventListener('click', function () {
+      starSelected.target.removeEventListener('mouseleave', turnOffStars);
+   });
+};
 
+function turnOffStars() {
+   for (var i = 0; i < stars.length; i++) {
+      stars[i].src = "bw_star.png";
+   }
+   document.getElementById('rating').value = "";
+};
 
-
-
-
-
+function updateCount() {
+   var commentText = document.getElementById('comment').value,
+      charCount = countCharacters(commentText);
+   document.getElementById('wordCount').value = `${charCount} / 1000`;
+   if (charCount > 1000) {
+      document.getElementById('wordCount').style.color = "white";
+      document.getElementById('wordCount').style.backgroundColor = "red";
+   } else {
+      document.getElementById('wordCount').style.color = "black";
+      document.getElementById('wordCount').style.backgroundColor = "white";
+   }
+};
 
 /*=================================================================*/
 
 function countCharacters(textStr) {
-      var commentregx = /\s/g;
-      var chars = textStr.replace(commentregx, "");
-      return chars.length;
+   var commentregx = /\s/g;
+   var chars = textStr.replace(commentregx, "");
+   return chars.length;
 }
